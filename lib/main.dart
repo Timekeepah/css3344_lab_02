@@ -36,6 +36,8 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
 
   String _selectedRole = 'Student';
 
+  static const _roles = ['Student', 'Developer', 'Designer', 'Gravedigger', 'Cemeterian'];
+
   Future<void> _selectMaterialDate() async {
     final picked = await showDatePicker(
       context: context,
@@ -92,6 +94,55 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
     );
   }
 
+  Future<void> _showCupertinoRolePicker() async {
+    final controller = FixedExtentScrollController(
+      initialItem: _roles.indexOf(_selectedRole),
+    );
+
+    try {
+      await showCupertinoModalPopup<void>(
+        context: context,
+        semanticsDismissible: true,
+        builder: (sheetContext) => Container(
+          height: 240,
+          color: CupertinoColors.systemBackground.resolveFrom(sheetContext),
+          child: SafeArea(
+            top: false,
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: CupertinoButton(
+                    onPressed: () => Navigator.of(sheetContext).pop(),
+                    child: const Text('Done'),
+                  ),
+                ),
+                Expanded(
+                  child: CupertinoPicker(
+                    scrollController: controller,
+                    itemExtent: 32,
+                    onSelectedItemChanged: (int index) {
+                      if (!mounted) return;
+
+                      setState(() {
+                        _selectedRole = _roles[index];
+                      });
+                    },
+                    children: _roles.map((role) {
+                      return Center(child: Text(role));
+                    }).toList(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    } finally {
+      controller.dispose();
+    }
+  }
+
   Widget _buildDatePickerSection() {
     final date = _selectedDate;
     final label = date == null
@@ -121,7 +172,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
           DropdownButton<String>(
             value: _selectedRole,
             isExpanded: true,
-            items: ['Student', 'Developer', 'Designer'].map((String role) {
+            items: _roles.map((String role) {
               return DropdownMenuItem<String>(
                 value: role,
                 child: Text(role),
@@ -134,6 +185,12 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
                 _selectedRole = newValue;
               });
             },
+          ),
+
+          const SizedBox(height: 8),
+          OutlinedButton(
+            onPressed: _showCupertinoRolePicker,
+            child: const Text('Open Cupertino Role Picker'),
           ),
 
         ],

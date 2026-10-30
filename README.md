@@ -7,11 +7,12 @@ Flutter coursework project, continuing the Lab 01 student profile.
 - Reusable student details, title and image sections.
 - Portrait stacking and landscape side-by-side layouts with scrolling.
 - Material calendar and Cupertino date picker sharing the selected date.
-- Material role dropdown with Student, Developer and Designer choices.
+- Material role dropdown and Cupertino role wheel sharing the selected role.
+- Role choices: Student, Developer, Designer, Gravedigger and Cemeterian.
 - Bundled profile and landscape photograph assets.
 
-The Cupertino role wheel picker is still pending. This is a progress checkpoint,
-not a claim that all Lab 02 requirements or submission screenshots are complete.
+All four picker controls are implemented. Submission screenshots and the final
+submission PDF are separate from this source-code checkpoint.
 
 ## Run
 

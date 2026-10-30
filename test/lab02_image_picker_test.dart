@@ -37,9 +37,23 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Selected role: Developer'), findsOneWidget);
 
+    final roleButton = find.text('Open Cupertino Role Picker');
+    await tester.scrollUntilVisible(roleButton, 150);
+    await tester.pumpAndSettle();
+    await tester.tap(roleButton);
+    await tester.pumpAndSettle();
+    final wheel = tester.widget<CupertinoPicker>(find.byType(CupertinoPicker));
+    expect(wheel.scrollController!.selectedItem, 1);
+    wheel.scrollController!.jumpToItem(2);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Done'));
+    await tester.pumpAndSettle();
+    expect(find.text('Selected role: Designer'), findsOneWidget);
+    expect(tester.widget<DropdownButton<String>>(dropdown).value, 'Designer');
+
     tester.view.physicalSize = const Size(932, 430);
     await tester.pumpAndSettle();
-    expect(find.text('Selected role: Developer'), findsOneWidget);
+    expect(find.text('Selected role: Designer'), findsOneWidget);
     expect(find.byType(ImageSection), findsOneWidget);
     await tester.scrollUntilVisible(
       button,
@@ -54,5 +68,22 @@ void main() {
     await tester.tap(find.text('Done'));
     await tester.pumpAndSettle();
     expect(find.byType(CupertinoDatePicker), findsNothing);
+
+    await tester.scrollUntilVisible(
+      roleButton,
+      150,
+      scrollable: find.byType(Scrollable).last,
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(roleButton);
+    await tester.pumpAndSettle();
+    expect(
+      tester.widget<CupertinoPicker>(find.byType(CupertinoPicker))
+          .scrollController!.selectedItem,
+      2,
+    );
+    expect(tester.takeException(), isNull);
+    await tester.tap(find.text('Done'));
+    await tester.pumpAndSettle();
   });
 }
