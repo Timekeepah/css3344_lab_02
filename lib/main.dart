@@ -225,7 +225,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
       children: [
         const StudentDetailsSection(),
         const TitleSection(
-          name: 'Aleef Danial',
+          name: 'Tanah Kubur',
           location: 'Sibu, Sarawak',
           starCount: 999,
         ),
@@ -252,7 +252,7 @@ class _StudentProfileScreenState extends State<StudentProfileScreen> {
             padding: const EdgeInsets.all(20),
             children: [
               const TitleSection(
-                name: 'Aleef Danial',
+                name: 'Tanah Kubur',
                 location: 'Sibu, Sarawak',
                 starCount: 999,
               ),
